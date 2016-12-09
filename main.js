@@ -19,7 +19,7 @@ function printTime() {
 // This function should accept time as a paramter
 // and update the DOM to make the proper subtitle appear over the movie.
 function displaySubtitle(time) {
-	foundSub = findSubtitle(time);
+	var foundSub = findSubtitle(time);
 	$("#line1").text(foundSub.line1);
 	$("#line2").text(foundSub.line2);
 }
@@ -50,9 +50,9 @@ function findSubtitle(time) {
 // object and return true or false depending on if the subtitle
 // should appear on the screen at the given time.
 function isTimeInDuration(time, subtitleObj) {
-    durationList = subtitleObj.duration.split(" ");
-    startTime = timestampToSeconds(durationList[0]);
-    endTime = timestampToSeconds(durationList[2]);
+    var durationList = subtitleObj.duration.split(" --> ");
+    var startTime = timestampToSeconds(durationList[0]);
+    var endTime = timestampToSeconds(durationList[1]);
     if (time > startTime && time < endTime) {
         return true;
     }
@@ -65,13 +65,13 @@ function isTimeInDuration(time, subtitleObj) {
 // a number that can be used elsewhere. For instance,
 // timestampToSeconds("00:00:05,580") should return 5.580
 function timestampToSeconds(timestamp) {
-	timeItems = timestamp.split(",");
-	millis = parseInt(timeItems[1],10);
-	timeSplits = timeItems[0].split(":");
-	hours = parseInt(timeSplits[0],10);
-	minutes = parseInt(timeSplits[1],10);
-	seconds = parseInt(timeSplits[2],10);
-	totalseconds = (hours * 3600) + (minutes * 60) + seconds + (millis / 1000);
+	var timeItems = timestamp.split(",");
+	var millis = parseInt(timeItems[1],10);
+	var timeSplits = timeItems[0].split(":");
+	var hours = parseInt(timeSplits[0],10);
+	var minutes = parseInt(timeSplits[1],10);
+	var seconds = parseInt(timeSplits[2],10);
+	var totalseconds = (hours * 3600) + (minutes * 60) + seconds + (millis / 1000);
 	return totalseconds;
 }
 
