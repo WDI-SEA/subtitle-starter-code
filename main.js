@@ -42,7 +42,6 @@ function displaySubtitle(time) {
   if (HASHEDSUBS.hasOwnProperty(roundedTime)){
     $("#line1").text(HASHEDSUBS[roundedTime].line1);
     $("#line2").text(HASHEDSUBS[roundedTime].line2);
-    // var starttime = timestampToSeconds(HASHEDSUBS[roundedTime].duration.split(" --> ")[0])
     setTimeout(function() {
       $("#line1").text("");
       $("#line2").text("");
@@ -74,12 +73,12 @@ function isTimeInDuration(time, subtitle) {
 // a number that can be used elsewhere. For instance,
 // timestampToSeconds("00:00:05,580") should return 5.580
 function timestampToSeconds(timestamp) {
-  // remove comma because psh, commas are for other countries
+  // replace comma because psh, commas are for other countries
   // split string by ":" to get an array of hours, minutes, and milliseconds
   // chain those methods together because I gosh darn can dangnabbit
-  var h_m_ms = timestamp.replace(",", "").split(":");
+  var h_m_ms = timestamp.replace(",", ".").split(":");
   // .toFixed(3) is for keeping that thousandth place
-  return (parseInt(h_m_ms[0])*3600 + parseInt(h_m_ms[1])*60 + parseInt(h_m_ms[2])/1000).toFixed(3);
+  return (parseFloat(h_m_ms[0])*3600 + parseFloat(h_m_ms[1])*60 + parseFloat(h_m_ms[2])).toFixed(3);
 }
 
 // This is a test to see if the findSubtitle function returns the correct
