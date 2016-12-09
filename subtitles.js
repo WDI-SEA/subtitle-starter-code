@@ -1,4 +1,8 @@
-﻿[
+$(document).ready(function(){
+  console.log("subtitles are a go");
+});
+
+var SUBTITLES = [
   {
     duration: "00:00:00,380 --> 00:00:01,940",
     line1: "November 1942",
@@ -10,7 +14,7 @@
     line2: "Sit down ladies.",
   },
   {
-    duration: "00:00:09,230 --> 00:00:14,440",          }
+    duration: "00:00:09,230 --> 00:00:14,440",
     line1: "One moment. The Führer is feeding",
     line2: "his dog. He'll see you in a short while.",
   },

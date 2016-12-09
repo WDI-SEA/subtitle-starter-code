@@ -2,7 +2,7 @@ $(document).ready(function() {
   // an interval sets up a function to run 10 times a second
   // so it's constantly checking the time of the movie and
   // using that time to decide which subtitle to display.
-  setInterval(printTime, 100);
+  setInterval(printTime, 50);
 });
 
 // Access the current timestamp of the movie
@@ -16,10 +16,40 @@ function printTime() {
   displaySubtitle(time);
 }
 
+function hashmapSubtitles(sub) {
+  // takes the SUBTITLES.js stuff and reformats it as
+  // { timeStart: [timeEnd, line1, line2] }
+  var hashedSub = {};
+  var duration = [];
+  var values = [];
+  var key;
+  // for my reference: SUBTITLE[i].duration, .line1, .line2
+  // SUBTITLES[2].duration = "00:00:09,230 --> 00:00:14,440"
+  for (var i=0; i<sub.length; i++) {
+    duration = sub[i].duration.split(" --> ");
+    key = Math.round(timestampToSeconds(duration[0])*10)/10;
+    values = [timestampToSeconds(duration[1]), sub[i].line1, sub[i].line2];
+    hashedSub[key] = values;
+  }
+  return hashedSub;
+}
+
+var HASHEDSUBS = hashmapSubtitles(SUBTITLES);
+
 // This function should accept time as a paramter
 // and update the DOM to make the proper subtitle appear over the movie.
 function displaySubtitle(time) {
+  var roundedTime = Math.round(time*10)/10;
+  console.log(time);
+  if (HASHEDSUBS.hasOwnProperty(roundedTime)){
+    $("#line1").text(HASHEDSUBS[roundedTime][1]);
+    $("#line2").text(HASHEDSUBS[roundedTime][2]);
 
+    var clearLines = setTimeout(function() {
+      $("#line1").text("");
+      $("#line2").text("");
+    }, ((HASHEDSUBS[time][0]-time)*1000) ) // clear text, timeout in milliseconds
+  };
 }
 
 // This function should take time as a parameter and
@@ -46,7 +76,12 @@ function isTimeInDuration(time, subtitle) {
 // a number that can be used elsewhere. For instance,
 // timestampToSeconds("00:00:05,580") should return 5.580
 function timestampToSeconds(timestamp) {
-
+  // remove comma because psh, commas are for other countries
+  // split string by ":" to get an array of hours, minutes, and milliseconds
+  // chain those methods together because I gosh darn can dangnabbit
+  var h_m_ms = timestamp.replace(",", "").split(":");
+  // .toFixed(3) is for keeping that thousandth place
+  return (parseInt(h_m_ms[0])*3600 + parseInt(h_m_ms[1])*60 + parseInt(h_m_ms[2])/1000).toFixed(3);
 }
 
 // This is a test to see if the findSubtitle function returns the correct
