@@ -45,7 +45,7 @@ $('#line2').text(lineToDisplay.line2);
       }
       else {
         dummyObject = {line1: "", line2: ""};
-      };
+      }
     }
       return dummyObject;
   }
@@ -74,8 +74,8 @@ var units = timestamp.split(',')[0].split(':');
 
 
 var secs = parseInt(units[2], 10);
-var minutes = parseInt(units[1], 10)/60;
-var hours = parseInt(units[0], 10/60/60);
+var minutes = parseInt(units[1], 10)*60;
+var hours = parseInt(units[0], 10/60)*60;
 var seconds = ms + secs + minutes + hours;
 return seconds;
-};
+}
