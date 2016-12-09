@@ -20,7 +20,11 @@ function printTime() {
 // and update the DOM to make the proper subtitle appear over the movie.
 function displaySubtitle(time) {
 
+
+
 }
+
+
 
 // This function should take time as a parameter and
 // search through a list of subtitles to find and return the
@@ -30,24 +34,39 @@ function displaySubtitle(time) {
 // {line1: "", line2: ""} with two empty strings
 // so the function looks like it's returning an
 // empty subtitle (and not null) and it won't crash our
-// program.
+// program. for loop
 function findSubtitle(time) {
+  for (var i=0; i < SUBTITLES.length; i++) {
+
 
 }
 
 // This function should accept a current time, and one subtitle
 // object and return true or false depending on if the subtitle
-// should appear on the screen at the given time.
+// should appear on the screen at the given time. true/false on time
 function isTimeInDuration(time, subtitle) {
+  var subtitleTime = subtitle.duration;
+  var startTime = timestampToSeconds(subtitleTime.split(" --> ")[0]);
+  var endTime = timestampToSeconds(subtitleTime.split(" --> ")[1]);
+  return startTime < time && time < endTime;
 
 }
+
 
 // This function should accept a timestamp string and turn it into
 // a number that can be used elsewhere. For instance,
 // timestampToSeconds("00:00:05,580") should return 5.580
 function timestampToSeconds(timestamp) {
-
+  var ms = parseInt(timestamp.split(",")[1], 10);
+  var sec = parseInt(timestamp.split(":")[2], 10);
+  var min = parseInt(timestamp.split(":")[1], 10);
+  var time = (ms/1000) + sec + (min*60);
+  return time;
 }
+
+
+
+
 
 // This is a test to see if the findSubtitle function returns the correct
 // subtitle for the movie at 82 seconds into the film. The correct subtitle
