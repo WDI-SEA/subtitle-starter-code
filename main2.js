@@ -35,14 +35,14 @@ function displaySubtitle(time) {
 // empty subtitle (and not null) and it won't crash our
 // program.
 function findSubtitle(time) {
-  var lines = { line1: "", line2: ""};
+  var lines = { line1: "", line2: ""}; // keep string empty until correct subtitle is found
   for (var i=0; i<SUBTITLES.length; i++) {
     if (isTimeInDuration(time, SUBTITLES[i])) {
       lines.line1 = SUBTITLES[i].line1;
       lines.line2 = SUBTITLES[i].line2;
     }
   }
-  return lines;
+  return lines; // if there are no subtitles at time, return the original empty string
 }
 
 // This function should accept a current time, and one subtitle
