@@ -41,13 +41,13 @@ function displaySubtitle(time) {
 function findSubtitle(time) {
   for (var i = 0; i < SUBTITLES.length; i++){
       var subtitle = SUBTITLES[i];
-      if (isTimeInDuration(time, subtitle)){
-          return i;
+      if (isTimeInDuration(time, subtitle)){//is this time in that subtitle duration?
+          return i;//If yes return the subtitle
       } else {
 
       }
   }
-  return false;
+  return false; //? not sure what it is?
 }
 
 
@@ -57,7 +57,7 @@ function findSubtitle(time) {
 function isTimeInDuration(time, subtitle) {
   var startTime = timestampToSeconds(subtitle.duration.split(' --> ')[0]);
   var endTime = timestampToSeconds(subtitle.duration.split(' --> ')[1]);
-  var currentTime = time;//?
+  // var currentTime = time;//?
 
     if (time >= startTime && time <= endTime){
       return true;
@@ -76,7 +76,7 @@ function timestampToSeconds(timestamp) {
 
   var ms = parseInt(timestamp.split(',')[1],10)/1000;
   var secs = parseInt(units[2], 10);
-  var minutes =  parseInt(units[1], 10)/60;
+  var minutes =  parseInt(units[1], 10)*60;
   var hours =  parseInt(units[0], 10/60 * 60);
   var seconds = ms + secs + minutes + hours;
 
@@ -90,4 +90,4 @@ function timestampToSeconds(timestamp) {
 // is
 // { duration: "00:01:21,540 --> 00:01:25,180",
 //   line1: "Can I ask your name?", line2: "-Margarethe Lorenz." }
-console.log(findSubtitle(82));
+// console.log(findSubtitle(82));
