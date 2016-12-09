@@ -36,6 +36,13 @@ does not try to set timeouts for each subtitle. Instead it just constantly
 reads the current time of the movie and it uses that time to determine
 what subtitle should be shown.
 
+## File Formats
+The original .srt format isn't in JavaScript. The instructional team has
+converted the .srt file to JavaScript for you.
+
+If you're curious, you can read more about the original file format here:
+https://en.wikipedia.org/wiki/SubRip#SubRip_text_file_format
+
 ### Original .srt Format
 ```
 0
@@ -97,6 +104,12 @@ var cents = price.split(".")[1];
 // Use the parseInt(str, 10) command to convert them into base-10 actual numbers.
 dollars = parseInt(dollars, 10);
 cents = parseInt(cents, 10);
+
+// it's a good idea to convert different units into one unit.
+// it makes things easier to compare.
+var totalCents = cents + 100*dollars;
+
+console.log(totalCents);
 ```
 
 Read more about the original file format here:
