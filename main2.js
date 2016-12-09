@@ -16,23 +16,6 @@ function printTime() {
   displaySubtitle(time);
 }
 
-function hashmapSubtitles(sub) {
-  // takes the SUBTITLES.js stuff and reformats it as
-  // { timeStart: [timeEnd, line1, line2] }
-  var hashedSub = {};
-  var duration = [];
-  var key;
-  // for my reference: SUBTITLE[i].duration, .line1, .line2
-  // SUBTITLES[2].duration = "00:00:09,230 --> 00:00:14,440"
-  for (var i=0; i<sub.length; i++) {
-    duration = sub[i].duration.split(" --> ");
-    key = Math.round(timestampToSeconds(duration[0])*10)/10;
-    hashedSub[key] = sub[i];
-  }
-  return hashedSub;
-}
-
-var HASHEDSUBS = hashmapSubtitles(SUBTITLES);
 
 // This function should accept time as a paramter
 // and update the DOM to make the proper subtitle appear over the movie.
@@ -40,14 +23,23 @@ function displaySubtitle(time) {
   var roundedTime = Math.round(time*10)/10;
   console.log(time);
   if (HASHEDSUBS.hasOwnProperty(roundedTime)){
-    $("#line1").text(HASHEDSUBS[roundedTime].line1);
-    $("#line2").text(HASHEDSUBS[roundedTime].line2);
-    // var starttime = timestampToSeconds(HASHEDSUBS[roundedTime].duration.split(" --> ")[0])
-    setTimeout(function() {
+    $("#line1").text(HASHEDSUBS[roundedTime][1]);
+    $("#line2").text(HASHEDSUBS[roundedTime][2]);
+
+    var clearLines = setTimeout(function() {
       $("#line1").text("");
       $("#line2").text("");
-    }, ((timestampToSeconds(HASHEDSUBS[roundedTime].duration.split(" --> ")[1])-time)*1000) ) // clear text, timeout in milliseconds
+    }, ((HASHEDSUBS[time][0]-time)*1000) ) // clear text, timeout in milliseconds
   };
+}
+
+// iterate through each object in SUBTITLES
+// moving to the next only when time moves outside of duration
+function currentSubtitle(subtitle, index, time) {
+  var duration = subtitle[index].duration.split(" --> ");
+  if (time >= duration[0] && time < duration[1]) {
+    return true;
+  }
 }
 
 // This function should take time as a parameter and
