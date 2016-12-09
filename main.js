@@ -19,6 +19,8 @@ function printTime() {
 // This function should accept time as a paramter
 // and update the DOM to make the proper subtitle appear over the movie.
 function displaySubtitle(time) {
+  $("#line1").text(subtitle.line1);
+  $("#line2").text(subtitle.line2);
 
 }
 
@@ -32,22 +34,50 @@ function displaySubtitle(time) {
 // empty subtitle (and not null) and it won't crash our
 // program.
 function findSubtitle(time) {
-
+  for (var i = 0; i < SUBTITLES.length; i++){
+      var subtitle = SUBTITLES[i];
+      if (isTimeInDuration(time, subtitle)){
+          return subtitle;
+      } else {
+return {
+        line1: "",
+        line2: ""
+      };
+      }
+  }
 }
+
 
 // This function should accept a current time, and one subtitle
 // object and return true or false depending on if the subtitle
 // should appear on the screen at the given time.
 function isTimeInDuration(time, subtitle) {
-
+  time = timestampToSeconds(time);//?
+  var startTime = timestampToSeconds(subtitle.duration.split(' --> ')[0]);
+  var endTime = timestampToSeconds(subtitle.duration.split(' --> ')[1]);
+    if (time >= startTime && time <= endTime){
+      return true;
+    }
 }
+
 
 // This function should accept a timestamp string and turn it into
 // a number that can be used elsewhere. For instance,
 // timestampToSeconds("00:00:05,580") should return 5.580
 function timestampToSeconds(timestamp) {
 
+  var units = timestamp.split(',')[0].split(':');
+
+  var ms = parseInt(timestamp.split(',')[1],10)/1000;
+  var secs = parseInt(units[2], 10);
+  var minutes =  parseInt(units[1], 10)/60;
+  var hours =  parseInt(units[0], 10/60/60);
+  var seconds = ms + secs + minutes + hours;
+
+  return seconds;
 }
+
+// console.log(timestampToSeconds("00:00:05,580"));
 
 // This is a test to see if the findSubtitle function returns the correct
 // subtitle for the movie at 82 seconds into the film. The correct subtitle
